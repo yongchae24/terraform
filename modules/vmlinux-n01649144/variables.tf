@@ -1,0 +1,64 @@
+
+variable "humber_id" {
+  type = string
+  default = "n01649144"
+}
+
+variable "location" {
+  type        = string
+  default     = "Canada Central"
+}
+
+variable "resource_group_name" {
+  type = string
+  default = "n01649144-RG"
+}
+
+variable "vm_size" {
+  type    = string
+  default = "Standard_B1s"
+}
+
+variable "admin_username" {
+  type    = string
+  default = "n01649144"
+}
+
+variable "subnet_id" {
+  type = string
+  # Removed default value to enforce passing it from the root module
+}
+
+variable "storage_account_uri" {
+  type = string
+  # Removed default value to enforce passing it from the root module
+}
+
+variable "public_key" {
+  type = string
+  default = "/home/n01649144/.ssh/id_rsa.pub"
+}
+
+variable "private_key" {
+  type = string
+  default = "/home/n01649144/.ssh/id_rsa"
+}
+
+variable "vm_names" {
+  type    = map(string)
+  default = {
+    "vm1" = "vm1"
+    "vm2" = "vm2"
+    "vm3" = "vm3"
+  }
+}
+
+variable "common_tags" {
+  type        = map(string)
+  default     = {
+    Assignment    = "CCGC 5502 Automation Assignment"
+    Name          = "yongchae.ko"
+    ExpirationDate= "2024-12-31"
+    Environment   = "Learning"
+  }
+}
