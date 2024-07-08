@@ -9,6 +9,11 @@ output "vm_domain_names" {
   value       = { for k, v in azurerm_public_ip.public_ip : k => v.domain_name_label }
 }
 
+output "vm_fqdns" {
+  description = "The FQDNs of the Linux VMs"
+  value       = { for k, v in azurerm_public_ip.public_ip : k => "${v.domain_name_label}.${v.location}.cloudapp.azure.com" }
+}
+
 output "vm_private_ips" {
   description = "The private IP addresses of the VMs"
   value       = { for k, v in azurerm_network_interface.nic : k => v.private_ip_address }
