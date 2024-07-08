@@ -60,4 +60,5 @@ module "loadbalancer-n01649144" {
 module "database-n01649144" {
   source              = "./modules/database-n01649144"
   common_tags = local.common_tags
+  depends_on          = [module.rgroup-n01649144, module.network-n01649144, module.common-n01649144]
 }
