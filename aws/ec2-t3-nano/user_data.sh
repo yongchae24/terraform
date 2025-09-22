@@ -11,7 +11,7 @@ sudo systemctl start httpd
 sudo systemctl enable httpd
 
 # Create simple web page for verification
-sudo tee /var/www/html/index.html > /dev/null << 'EOF'
+sudo tee /var/www/html/index.html > /dev/null << EOF
 <!DOCTYPE html>
 <html>
 <head>
