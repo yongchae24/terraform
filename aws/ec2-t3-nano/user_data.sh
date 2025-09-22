@@ -59,19 +59,5 @@ EOF
 # Set proper permissions
 sudo chown -R apache:apache /var/www/html
 
-# Create simple status endpoint
-sudo tee /var/www/html/status.html > /dev/null << 'EOF'
-<!DOCTYPE html>
-<html>
-<head><title>Instance Status</title></head>
-<body>
-    <h1>Instance Status: Running</h1>
-    <p>Timestamp: $(date)</p>
-    <p>Uptime: $(uptime)</p>
-    <p>Instance ID: $(curl -s http://169.254.169.254/latest/meta-data/instance-id)</p>
-</body>
-</html>
-EOF
-
 # Log completion
 echo "User data script completed at $(date)" | sudo tee -a /var/log/user-data.log
