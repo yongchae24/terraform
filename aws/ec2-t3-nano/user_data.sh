@@ -33,13 +33,36 @@ sudo tee /var/www/html/index.html > /dev/null << 'EOF'
         
         <div class="info">
             <h2>Instance Information</h2>
-            <p><strong>Instance ID:</strong> $(curl -s http://169.254.169.254/latest/meta-data/instance-id)</p>
-            <p><strong>Public IP:</strong> $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)</p>
-            <p><strong>Private IP:</strong> $(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)</p>
-            <p><strong>Region:</strong> $(curl -s http://169.254.169.254/latest/meta-data/placement/region)</p>
-            <p><strong>Availability Zone:</strong> $(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)</p>
+            <p><strong>Instance ID:</strong> <span id="instance-id">Loading...</span></p>
+            <p><strong>Public IP:</strong> <span id="public-ip">Loading...</span></p>
+            <p><strong>Private IP:</strong> <span id="private-ip">Loading...</span></p>
+            <p><strong>Region:</strong> <span id="region">Loading...</span></p>
+            <p><strong>Availability Zone:</strong> <span id="availability-zone">Loading...</span></p>
             <p><strong>Instance Type:</strong> t3.nano (Cost Optimized)</p>
         </div>
+        
+        <script>
+            // Fetch instance metadata
+            fetch('http://169.254.169.254/latest/meta-data/instance-id')
+                .then(response => response.text())
+                .then(data => document.getElementById('instance-id').textContent = data);
+                
+            fetch('http://169.254.169.254/latest/meta-data/public-ipv4')
+                .then(response => response.text())
+                .then(data => document.getElementById('public-ip').textContent = data);
+                
+            fetch('http://169.254.169.254/latest/meta-data/local-ipv4')
+                .then(response => response.text())
+                .then(data => document.getElementById('private-ip').textContent = data);
+                
+            fetch('http://169.254.169.254/latest/meta-data/placement/region')
+                .then(response => response.text())
+                .then(data => document.getElementById('region').textContent = data);
+                
+            fetch('http://169.254.169.254/latest/meta-data/placement/availability-zone')
+                .then(response => response.text())
+                .then(data => document.getElementById('availability-zone').textContent = data);
+        </script>
         
         <div class="info">
             <h2>Cost Information</h2>

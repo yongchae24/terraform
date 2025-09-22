@@ -28,23 +28,17 @@ echo ""
 
 # Step 3: Apply the configuration
 echo "🔧 Step 3: Applying configuration..."
-echo "⚠️  This will create AWS resources and may incur costs."
-read -p "Do you want to continue? (yes/no): " confirm
+echo "⚠️  Creating AWS resources (t3.nano ~$4.60/month)..."
+terraform apply -auto-approve
+echo "✅ Deployment completed successfully!"
+echo ""
 
-if [ "$confirm" = "yes" ] || [ "$confirm" = "y" ]; then
-    terraform apply -auto-approve
-    echo "✅ Deployment completed successfully!"
-    echo ""
-    echo "🎉 Your EC2 instance is now running!"
-    echo "📊 Check the outputs above for connection details."
-else
-    echo "❌ Deployment cancelled by user."
-    exit 1
-fi
-
+echo "🎉 Your EC2 instance is now running!"
+echo "📊 Check the outputs above for connection details."
 echo ""
 echo "🔗 Quick Access:"
-echo "- Web Server: http://\$(terraform output -raw instance_public_ip)"
-echo "- Status Page: http://\$(terraform output -raw instance_public_ip)/status.html"
+PUBLIC_IP=$(terraform output -raw instance_public_ip)
+echo "- Web Server: http://$PUBLIC_IP"
+echo "- Status Page: http://$PUBLIC_IP/status.html"
 echo ""
-echo "💡 To destroy resources: terraform destroy"
+echo "�� To destroy resources: terraform destroy"
