@@ -33,6 +33,9 @@ resource "local_file" "private_key" {
   content         = tls_private_key.ec2_key.private_key_pem
   filename        = "${path.module}/${var.key_pair_name}.pem"
   file_permission = "0400"
+
+  # Ensure file is deleted when resource is destroyed
+  depends_on = [tls_private_key.ec2_key]
 }
 
 # Upload public key to AWS
