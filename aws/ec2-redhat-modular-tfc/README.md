@@ -1,6 +1,6 @@
-# EC2 RedHat Modular - Remote Backend (S3)
+# EC2 RedHat Modular - Terraform Cloud Backend
 
-Modular Terraform configuration for creating an Amazon Linux 2023 EC2 instance (RHEL-based) with **S3 remote backend** for state management.
+Modular Terraform configuration for creating a Red Hat Enterprise Linux 9 EC2 instance with **Terraform Cloud remote backend** for state management.
 
 ## Key Differences from Local Backend Version
 

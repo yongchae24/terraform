@@ -42,7 +42,7 @@ module "ec2_instance" {
 
   tags = {
     Name = "redhat-ec2-practice"
-    OS   = "Amazon Linux 2023 (RHEL-based)"
+    OS   = "Red Hat Enterprise Linux 9"
   }
 
   depends_on = [

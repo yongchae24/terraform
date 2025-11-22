@@ -1,11 +1,11 @@
-# Data source to get Amazon Linux 2023 AMI (RHEL-based, free)
+# Data source to get Red Hat Enterprise Linux 9 AMI
 data "aws_ami" "redhat" {
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["309956199498"] # Red Hat official account
 
   filter {
     name   = "name"
-    values = ["al2023-ami-*-x86_64"]
+    values = ["RHEL-9*_HVM-*-x86_64-*"]
   }
 
   filter {
@@ -30,7 +30,7 @@ resource "aws_instance" "redhat" {
   # Enable public IP
   associate_public_ip_address = true
 
-  # Root volume (Amazon Linux 2023 requires minimum 30GB)
+  # Root volume (Red Hat Linux minimum 10GB)
   root_block_device {
     volume_type           = "gp3"
     volume_size           = var.root_volume_size

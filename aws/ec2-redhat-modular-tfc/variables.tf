@@ -5,15 +5,15 @@ variable "aws_region" {
 }
 
 variable "instance_type" {
-  description = "EC2 instance type"
+  description = "EC2 instance type (t3.micro minimum for Red Hat)"
   type        = string
-  default     = "t3.nano"
+  default     = "t3.micro"
 }
 
 variable "root_volume_size" {
-  description = "Size of the root volume in GB (Amazon Linux 2023 requires minimum 30GB)"
+  description = "Size of the root volume in GB (Red Hat minimum 10GB)"
   type        = number
-  default     = 30
+  default     = 20
 }
 
 variable "key_pair_name" {

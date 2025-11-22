@@ -19,9 +19,9 @@ variable "subnet_id" {
 }
 
 variable "root_volume_size" {
-  description = "Size of the root volume in GB"
+  description = "Size of the root volume in GB (Red Hat minimum 10GB)"
   type        = number
-  default     = 30
+  default     = 20
 }
 
 variable "tags" {
