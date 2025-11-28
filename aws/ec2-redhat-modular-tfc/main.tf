@@ -39,6 +39,7 @@ module "ec2_instance" {
   security_group_id = module.security_group.security_group_id
   subnet_id         = data.aws_subnets.default.ids[0]
   root_volume_size  = var.root_volume_size
+  private_key_path  = module.ssh_key.private_key_path
 
   tags = {
     Name = "redhat-ec2-practice"

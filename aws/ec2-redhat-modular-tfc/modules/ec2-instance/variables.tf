@@ -29,3 +29,8 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "private_key_path" {
+  description = "Path to the private key file for SSH connection"
+  type        = string
+}

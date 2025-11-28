@@ -38,5 +38,39 @@ resource "aws_instance" "redhat" {
     encrypted             = false
   }
 
+  # SSH connection for remote-exec
+  connection {
+    type        = "ssh"
+    user        = "ec2-user"
+    private_key = file(var.private_key_path)
+    host        = self.public_ip
+    timeout     = "2m"
+  }
+
+  # Lightweight remote-exec commands (practice only)
+  provisioner "remote-exec" {
+    inline = [
+      # 1. Display system information (instant)
+      "echo '=== System Info ==='",
+      "hostname",
+      "uname -a",
+      "cat /etc/redhat-release",
+
+      # 2. Create practice directory (instant)
+      "mkdir -p ~/terraform-practice",
+      "echo 'Terraform remote-exec practice directory created' > ~/terraform-practice/README.txt",
+
+      # 3. Log instance creation (instant)
+      "echo 'Instance created at $(date)' >> ~/terraform-practice/creation.log",
+      "echo 'Public IP: ${self.public_ip}' >> ~/terraform-practice/creation.log",
+
+      # 4. Set environment variable (instant)
+      "echo 'export TERRAFORM_MANAGED=true' >> ~/.bashrc",
+
+      # 5. Display completion message (instant)
+      "echo 'Remote-exec provisioning completed successfully!'"
+    ]
+  }
+
   tags = var.tags
 }

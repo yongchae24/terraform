@@ -1,0 +1,33 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  "data.aws_subnets.default" [label="data.aws_subnets.default"];
+  "data.aws_vpc.default" [label="data.aws_vpc.default"];
+  subgraph "cluster_module.ec2_instance" {
+    label = "module.ec2_instance"
+    fontname = "sans-serif"
+    "module.ec2_instance.data.aws_ami.redhat" [label="data.aws_ami.redhat"];
+    "module.ec2_instance.aws_instance.redhat" [label="aws_instance.redhat"];
+  }
+  subgraph "cluster_module.security_group" {
+    label = "module.security_group"
+    fontname = "sans-serif"
+    "module.security_group.aws_security_group.redhat_sg" [label="aws_security_group.redhat_sg"];
+  }
+  subgraph "cluster_module.ssh_key" {
+    label = "module.ssh_key"
+    fontname = "sans-serif"
+    "module.ssh_key.aws_key_pair.ec2_key_pair" [label="aws_key_pair.ec2_key_pair"];
+    "module.ssh_key.local_file.private_key" [label="local_file.private_key"];
+    "module.ssh_key.tls_private_key.ec2_key" [label="tls_private_key.ec2_key"];
+  }
+  "data.aws_subnets.default" -> "data.aws_vpc.default";
+  "module.ec2_instance.data.aws_ami.redhat" -> "module.security_group.aws_security_group.redhat_sg";
+  "module.ec2_instance.data.aws_ami.redhat" -> "module.ssh_key.aws_key_pair.ec2_key_pair";
+  "module.ec2_instance.data.aws_ami.redhat" -> "module.ssh_key.local_file.private_key";
+  "module.ec2_instance.aws_instance.redhat" -> "data.aws_subnets.default";
+  "module.ec2_instance.aws_instance.redhat" -> "module.ec2_instance.data.aws_ami.redhat";
+  "module.security_group.aws_security_group.redhat_sg" -> "data.aws_vpc.default";
+  "module.ssh_key.aws_key_pair.ec2_key_pair" -> "module.ssh_key.tls_private_key.ec2_key";
+  "module.ssh_key.local_file.private_key" -> "module.ssh_key.tls_private_key.ec2_key";
+}
