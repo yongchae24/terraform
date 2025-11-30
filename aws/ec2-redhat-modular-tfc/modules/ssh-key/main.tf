@@ -4,11 +4,15 @@ resource "tls_private_key" "ec2_key" {
   rsa_bits  = 2048
 }
 
-# Save private key to local file (in root directory)
-resource "local_file" "private_key" {
-  content         = tls_private_key.ec2_key.private_key_pem
-  filename        = "${path.root}/${var.key_pair_name}.pem"
-  file_permission = "0400"
+# Store private key in Vault (not in Terraform state)
+resource "vault_kv_secret_v2" "ssh_key" {
+  mount = "secret"
+  name  = "ec2/ssh-keys/${var.key_pair_name}"
+
+  data_json = jsonencode({
+    private_key = tls_private_key.ec2_key.private_key_pem
+    public_key  = tls_private_key.ec2_key.public_key_openssh
+  })
 
   depends_on = [tls_private_key.ec2_key]
 }

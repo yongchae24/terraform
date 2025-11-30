@@ -19,6 +19,12 @@ data "aws_ami" "redhat" {
   }
 }
 
+# Get private key from Vault
+data "vault_kv_secret_v2" "ssh_key" {
+  mount = "secret"
+  name  = replace(var.vault_secret_path, "secret/data/", "")
+}
+
 # Create EC2 instance
 resource "aws_instance" "redhat" {
   ami                    = data.aws_ami.redhat.id
@@ -42,7 +48,7 @@ resource "aws_instance" "redhat" {
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file(var.private_key_path)
+    private_key = jsondecode(data.vault_kv_secret_v2.ssh_key.data_json).private_key
     host        = self.public_ip
     timeout     = "2m"
   }

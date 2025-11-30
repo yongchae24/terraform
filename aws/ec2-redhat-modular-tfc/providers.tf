@@ -9,13 +9,18 @@ terraform {
       source  = "hashicorp/tls" # Source address
       version = "~> 4.0"
     }
-    local = {                     # Local name
-      source  = "hashicorp/local" # Source address
-      version = "~> 2.0"
+    vault = {                     # Local name
+      source  = "hashicorp/vault" # Source address
+      version = "~> 3.0"
     }
   }
 }
 
 provider "aws" { # Local name only (outside required_providers)
   region = var.aws_region
+}
+
+provider "vault" {
+  address = var.vault_address
+  token   = var.vault_token
 }

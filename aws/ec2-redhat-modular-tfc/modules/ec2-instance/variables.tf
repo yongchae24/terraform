@@ -30,7 +30,7 @@ variable "tags" {
   default     = {}
 }
 
-variable "private_key_path" {
-  description = "Path to the private key file for SSH connection"
+variable "vault_secret_path" {
+  description = "Vault secret path where private key is stored (e.g., secret/data/ec2/ssh-keys/key-name)"
   type        = string
 }
