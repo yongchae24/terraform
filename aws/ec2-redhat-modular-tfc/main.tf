@@ -13,14 +13,14 @@ data "aws_subnets" "default" {
 
 # Module: SSH Key
 module "ssh_key" {
-  source = "./modules/ssh-key"
+  source = "git::https://github.com/yongchae24/terraform.git//aws/ec2-redhat-modular-tfc/modules/ssh-key?ref=v1.0.0"
 
   key_pair_name = var.key_pair_name
 }
 
 # Module: Security Group
 module "security_group" {
-  source = "./modules/security-group"
+  source = "git::https://github.com/yongchae24/terraform.git//aws/ec2-redhat-modular-tfc/modules/security-group?ref=v1.0.0"
 
   vpc_id           = data.aws_vpc.default.id
   allowed_ssh_cidr = var.allowed_ssh_cidr
@@ -32,7 +32,7 @@ module "security_group" {
 
 # Module: EC2 Instance
 module "ec2_instance" {
-  source = "./modules/ec2-instance"
+  source = "git::https://github.com/yongchae24/terraform.git//aws/ec2-redhat-modular-tfc/modules/ec2-instance?ref=v1.0.0"
 
   instance_type     = var.instance_type
   key_name          = module.ssh_key.key_name
