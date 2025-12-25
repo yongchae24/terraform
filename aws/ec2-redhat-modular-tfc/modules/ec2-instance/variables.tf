@@ -3,11 +3,6 @@ variable "instance_type" {
   type        = string
 }
 
-variable "key_name" {
-  description = "Name of the AWS key pair"
-  type        = string
-}
-
 variable "security_group_id" {
   description = "Security group ID to attach to the instance"
   type        = string
@@ -28,9 +23,4 @@ variable "tags" {
   description = "Tags to apply to the instance"
   type        = map(string)
   default     = {}
-}
-
-variable "vault_secret_path" {
-  description = "Vault secret path where private key is stored (e.g., secret/data/ec2/ssh-keys/key-name)"
-  type        = string
 }

@@ -3,10 +3,9 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "allowed_ssh_cidr" {
-  description = "CIDR block allowed to SSH"
+variable "vpc_cidr" {
+  description = "VPC CIDR block for allowing ICMP traffic"
   type        = string
-  default     = "0.0.0.0/0"
 }
 
 variable "tags" {

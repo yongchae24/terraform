@@ -11,43 +11,64 @@ data "aws_subnets" "default" {
   }
 }
 
-# Module: SSH Key
-module "ssh_key" {
-  source = "./modules/ssh-key"
-
-  key_pair_name = var.key_pair_name
-}
-
-# Module: Security Group
-module "security_group" {
+# Security Group for EC2 Instance 1
+module "security_group_1" {
   source = "./modules/security-group"
 
-  vpc_id           = data.aws_vpc.default.id
-  allowed_ssh_cidr = var.allowed_ssh_cidr
+  vpc_id   = data.aws_vpc.default.id
+  vpc_cidr = data.aws_vpc.default.cidr_block
 
   tags = {
-    Name = "redhat-ec2-sg"
+    Name = "amazon-linux-sg-1"
   }
 }
 
-# Module: EC2 Instance
-module "ec2_instance" {
+# Security Group for EC2 Instance 2
+module "security_group_2" {
+  source = "./modules/security-group"
+
+  vpc_id   = data.aws_vpc.default.id
+  vpc_cidr = data.aws_vpc.default.cidr_block
+
+  tags = {
+    Name = "amazon-linux-sg-2"
+  }
+}
+
+# EC2 Instance 1
+module "ec2_instance_1" {
   source = "./modules/ec2-instance"
 
   instance_type     = var.instance_type
-  key_name          = module.ssh_key.key_name
-  security_group_id = module.security_group.security_group_id
+  security_group_id = module.security_group_1.security_group_id
   subnet_id         = data.aws_subnets.default.ids[0]
   root_volume_size  = var.root_volume_size
-  vault_secret_path = module.ssh_key.vault_secret_path
 
   tags = {
-    Name = "redhat-ec2-practice"
-    OS   = "Red Hat Enterprise Linux 9"
+    Name = "amazon-linux-instance-1"
+    OS   = "Amazon Linux 2023"
   }
 
   depends_on = [
-    module.ssh_key,
-    module.security_group
+    module.security_group_1
+  ]
+}
+
+# EC2 Instance 2
+module "ec2_instance_2" {
+  source = "./modules/ec2-instance"
+
+  instance_type     = var.instance_type
+  security_group_id = module.security_group_2.security_group_id
+  subnet_id         = data.aws_subnets.default.ids[0]
+  root_volume_size  = var.root_volume_size
+
+  tags = {
+    Name = "amazon-linux-instance-2"
+    OS   = "Amazon Linux 2023"
+  }
+
+  depends_on = [
+    module.security_group_2
   ]
 }
